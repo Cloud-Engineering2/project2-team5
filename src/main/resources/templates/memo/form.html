@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메모 작성</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: white;
+        }
+        .page-title {
+            text-align: center; /* 텍스트를 가운데 정렬 */
+        }
+        #memo-form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-field {
+            background-color: #fff3f3;
+            border: 2px solid #fff3f3;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 10px;
+            width: 600px;
+        }
+        .form-field input, .form-field textarea {
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: sans-serif;
+            font-size: 16px;
+            background-color: #fff3f3;
+        }
+        .form-field textarea {
+            height: 200px;
+            resize: none;
+        }
+        input:focus {
+            outline: none;
+        }
+        textarea:focus {
+            outline: none;
+        }
+        .button-container {
+            width: 600px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .save-button {
+            display: inline-block;
+            padding: 16px 25px;
+            background-color: #0b50ff;
+            border: none;
+            border-radius: 13px;
+            cursor: pointer;
+            font-size: 18px;
+            color: white;
+        }
+        .save-button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<h1 class="page-title">메모 작성</h1>
+<form th:action="@{/memo}" method="post" id="memo-form-container">
+    <div class="form-field">
+        <input type="text" placeholder="메모 제목" th:name="title" required />
+    </div>
+    <div class="form-field">
+        <textarea placeholder="메모 내용을 입력하세요..." th:name="content" required></textarea>
+    </div>
+    <div class="button-container">
+        <button class="save-button" type="submit">Submit</button>
+    </div>
+</form>
+</body>
+</html>
