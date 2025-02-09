@@ -8,6 +8,7 @@ import com.web.memo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,16 +30,17 @@ public class MemoService {
                 .collect(Collectors.toList());
     }
 
-    public MemoDto getMemo(Long mid) {
+    public MemoDto getMemo(Long memoId) {
 
-        return memoRepository.findByIdWithSummary(mid)
+        return memoRepository.findByIdWithSummary(memoId)
                             .map(MemoDto::fromEntity)
                             .orElseThrow();
     }
 
-    public void registerMemo(MemoDto memoDto) {
+    @Transactional
+    public MemoDto registerMemo(MemoDto memoDto) {
 
-        // 사용자 정보 가져오기
+        // 사용자 정보 확인
         // User 작업 완료 시 SecurityContext에서 사용자 정보 가져오기
 
         // 일단은 임시로 그냥 설정
@@ -48,26 +50,41 @@ public class MemoService {
         User user = userRepository.findById(userId).orElseThrow(()
                                                 -> new NoSuchElementException("No user present"));
 
-        // MemoDto를 Memo 엔티티로 변환
-        Memo newMemo = memoDto.toEntity(user);
-
-        // Summary가 존재하는 경우, summaryService를 호출하여 Summary를 DB에 저장
-//        if (memoDto.getSummary() != null) {
-//            Summary summary = new Summary();
-//            summary.setMemo(newMemo); // Memo와 연결
-//            summary.setSummary(memoDto.getSummary()); // 메모의 요약 설정
-//
-//            // DB에 저장
-//            summaryService.save(summary);
-//        }
-
-        // Memo 엔티티를 DB에 저장
-        memoRepository.save(newMemo);
-
         // Memo 내용(content)을 S3에 저장
 
-        // Summary가 존재하는 경우, Summary의 내용(summary)도 S3에 저장
+        // MemoDto를 Memo 엔티티로 변환하여 DB에 저장
+        Memo newMemo = memoDto.toEntity(user);
+        memoRepository.save(newMemo);
+
+        return memoDto;
 
     }
 
+    @Transactional
+    public MemoDto updateMemo(MemoDto memoDto, Long memoId) {
+
+        // 사용자 정보 확인
+        User user = userRepository.getReferenceById(memoDto.getUserId());
+
+        Memo memo = memoRepository.getReferenceById(memoId);
+
+        if (user.getId().equals(memo.getUser().getId())) {
+            memo.updateMemo(memoDto.getTitle(),
+                    memoDto.getContent());
+        }
+
+        return MemoDto.fromEntity(memo);
+    }
+
+    public static void deleteMemo(Long memoId) {
+
+        // 사용자 정보 확인
+
+        // s3 서비스 호출해서 s3 파일 삭제
+        // 메모, 요약이 존재한다면 요약까지 두 번 호출 필요
+
+        // 디비에서 메모 삭제
+
+
+    }
 }

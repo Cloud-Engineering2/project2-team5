@@ -67,16 +67,28 @@
 </head>
 <body>
 <h1 class="page-title">메모 작성</h1>
-<form th:action="@{/memo}" method="post" id="memo-form-container">
+<form th:action="${memo != null and memo.id != null} ? @{/memo/{memo_id}(id=${memo.id})} : @{/memo}"
+      th:method= "post"
+      id="memo-form-container">
+
+    <input type="hidden" name="_method" value="put" th:if="${memo != null and memo.id != null}" />
+
     <div class="form-field">
-        <input type="text" placeholder="메모 제목" th:name="title" required />
+        <input type="text" placeholder="메모 제목" th:name="title" th:value="${memo?.title}" required />
     </div>
+
     <div class="form-field">
-        <textarea placeholder="메모 내용을 입력하세요..." th:name="content" required></textarea>
+        <textarea placeholder="메모 내용을 입력하세요..." th:name="content" required>[[${memo?.content}]]</textarea>
     </div>
+
+    <div class="form-field">
+        <textarea placeholder="3줄 요약을 위한 ChatGPT를 호출하세요..." th:name="summary.summary">[[${summary?.summary}]]</textarea>
+    </div>
+
     <div class="button-container">
         <button class="save-button" type="submit">Submit</button>
     </div>
+
 </form>
 </body>
 </html>

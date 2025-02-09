@@ -46,6 +46,12 @@ public class Memo {
         return new Memo(title, content, user);
     }
 
+    public void updateMemo(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+
     public void setSummary(Summary summary) {
         this.summary = summary;
     }

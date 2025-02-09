@@ -60,12 +60,17 @@
 <body>
 <h1 class="page-title">메모 목록</h1>
 <div id="memo-container">
+    <!-- memos 리스트가 비어 있는지 체크 -->
+    <div th:if="${#lists.isEmpty(memos)}" class="no-memos">
+        아직 작성한 메모가 없습니다
+    </div>
+
     <!-- memos 리스트를 반복 처리 -->
-    아직 작성한 메모가 없습니다
     <div th:each="memo : ${memos}" class="memo">
         <!-- 제목이 30자 이상이면 자르고 '...' 추가 -->
         <div class="memo-title">
-            <a th:href="@{/memo/{memo_id}(memo_id=${memo.id})}" th:text="${(memo.title.length() > 30) ? memo.title.substring(0, 30) + '...' : memo.title}">
+            <a th:href="@{/memo/{memo_id}(memo_id=${memo.id})}"
+               th:text="${(memo.title.length() > 30) ? memo.title.substring(0, 30) + '...' : memo.title}">
                 메모 제목
             </a>
         </div>
@@ -75,10 +80,12 @@
             메모 내용
         </div>
     </div>
+
     <div class="button-container">
         <button class="create-button" onclick="location.href='/memo/edit'">Create</button>
     </div>
 </div>
+
 
 
 </body>

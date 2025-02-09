@@ -86,11 +86,11 @@
 </div>
 <div class="memo">
     <textarea readonly th:text="${memo.content}">Content</textarea>
-    <textarea readonly th:text="${memo.summary}">Summary</textarea>
+    <textarea readonly th:text="${summary?.summary}" placeholder="요약을 생성하지 않았습니다">Summary</textarea>
 </div>
 <div class="buttons">
-    <a th:href="@{/memo/edit/{id}(id=${memo.id})}" class="button">Edit</a>
-    <a th:href="@{/memo/delete/{id}(id=${memo.id})}" class="button delete-button">Delete</a>
+    <a th:href="@{/memo/edit/{memo_id}(memo_id=${memo.id})}" class="button">Edit</a>
+    <a th:href="@{/memo/delete/{memo_id}(memo_id=${memo.id})}" class="button delete-button">Delete</a>
 </div>
 </body>
 </html>
