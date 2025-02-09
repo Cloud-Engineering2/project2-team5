@@ -132,7 +132,7 @@ public class MemoController {
             }
         }
 
-        return "redirect:/memo/" + memoDto.getId();
+        return "redirect:/memo/" + memo_id;
     }
 
     @DeleteMapping("/{memo_id}")

@@ -64,8 +64,9 @@ public class MemoService {
     public MemoDto updateMemo(MemoDto memoDto, Long memoId) {
 
         // 사용자 정보 확인
+        // 임시로
+        memoDto.setUserId(1L);
         User user = userRepository.getReferenceById(memoDto.getUserId());
-
         Memo memo = memoRepository.getReferenceById(memoId);
 
         if (user.getId().equals(memo.getUser().getId())) {

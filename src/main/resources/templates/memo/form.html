@@ -67,10 +67,9 @@
 </head>
 <body>
 <h1 class="page-title">메모 작성</h1>
-<form th:action="${memo != null and memo.id != null} ? @{/memo/{memo_id}(id=${memo.id})} : @{/memo}"
-      th:method= "post"
+<form th:action="${memo != null and memo.id != null} ? @{/memo/{memo_id}(memo_id=${memo.id})} : @{/memo}"
+      th:method="post"
       id="memo-form-container">
-
     <input type="hidden" name="_method" value="put" th:if="${memo != null and memo.id != null}" />
 
     <div class="form-field">
