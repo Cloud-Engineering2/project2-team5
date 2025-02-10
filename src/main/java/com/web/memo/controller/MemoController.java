@@ -9,11 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/memo")
+@RequestMapping("/api/memo")
 public class MemoController {
 
     private final MemoService memoService;
@@ -90,7 +91,7 @@ public class MemoController {
     @PostMapping
     public String registerMemo(
             @ModelAttribute MemoDto memoDto, @ModelAttribute SummaryDto summaryDto
-    ) {
+    ) throws IOException {
 
         // memo 저장 서비스 호출
         MemoDto memo = memoService.registerMemo(memoDto);
@@ -104,14 +105,14 @@ public class MemoController {
 //
 //        }
 
-        return "redirect:/memo";
+        return "redirect:/api/memo";
     }
 
     @PutMapping("/{memo_id}")
     public String updateMemo(
             @ModelAttribute MemoDto memoDto,
             @ModelAttribute SummaryDto summaryDto,
-            @PathVariable Long memo_id) {
+            @PathVariable Long memo_id) throws IOException {
 
         // 메모 저장 서비스 호출
         MemoDto memo = memoService.updateMemo(memoDto, memo_id);
@@ -132,15 +133,15 @@ public class MemoController {
             }
         }
 
-        return "redirect:/memo/" + memo_id;
+        return "redirect:/api/memo/" + memo_id;
     }
 
     @DeleteMapping("/{memo_id}")
     public String deleteMemo(@PathVariable Long memo_id) {
 
-        MemoService.deleteMemo(memo_id);
+        memoService.deleteMemo(memo_id);
 
-        return "redirect:/memo";
+        return "redirect:/api/memo";
     }
 
 

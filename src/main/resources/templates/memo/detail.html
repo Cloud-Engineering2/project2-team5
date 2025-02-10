@@ -60,12 +60,12 @@
         }
         .button {
             display: inline-block;
-            width: 50px; /* 버튼 크기 통일 */
+            min-width: 50px;
             background-color: #0b50ff;
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 18px 30px;
+            font-size: 16px;
             text-decoration: none;
             text-align: center;
             cursor: pointer;
@@ -89,8 +89,11 @@
     <textarea readonly th:text="${summary?.summary}" placeholder="요약을 생성하지 않았습니다">Summary</textarea>
 </div>
 <div class="buttons">
-    <a th:href="@{/memo/edit/{memo_id}(memo_id=${memo.id})}" class="button">Edit</a>
-    <a th:href="@{/memo/delete/{memo_id}(memo_id=${memo.id})}" class="button delete-button">Delete</a>
+    <a th:href="@{/api/memo/edit/{memo_id}(memo_id=${memo.id})}" class="button">Edit</a>
+    <form th:action="@{/api/memo/{memo_id}(memo_id=${memo.id})}" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="button delete-button">Delete</button>
+    </form>
 </div>
 </body>
 </html>

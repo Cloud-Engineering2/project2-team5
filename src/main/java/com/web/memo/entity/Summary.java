@@ -2,7 +2,6 @@ package com.web.memo.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,7 +22,7 @@ public class Summary {
     private Memo memo;
 
     @Column(name = "summary", columnDefinition = "TEXT")
-    private String summary;
+    private String summaryText;
 
     @Column(name = "created_at", nullable = false)
     @CreatedDate
@@ -32,7 +31,7 @@ public class Summary {
     protected Summary() {}
     private Summary(Memo memo, String summary) {
         this.memo = memo;
-        this.summary = summary;
+        this.summaryText = summary;
     }
 
     public static Summary of(Memo memo, String summary) {
@@ -40,7 +39,7 @@ public class Summary {
     }
 
     public void updateContent(String summary) {
-        this.summary = summary;
+        this.summaryText = summary;
     }
 }
 

@@ -49,7 +49,7 @@
             border: none;
             border-radius: 14px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
             color: white;
         }
         .create-button:hover {
@@ -69,7 +69,7 @@
     <div th:each="memo : ${memos}" class="memo">
         <!-- 제목이 30자 이상이면 자르고 '...' 추가 -->
         <div class="memo-title">
-            <a th:href="@{/memo/{memo_id}(memo_id=${memo.id})}"
+            <a th:href="@{/api/memo/{memo_id}(memo_id=${memo.id})}"
                th:text="${(memo.title.length() > 30) ? memo.title.substring(0, 30) + '...' : memo.title}">
                 메모 제목
             </a>
@@ -82,7 +82,7 @@
     </div>
 
     <div class="button-container">
-        <button class="create-button" onclick="location.href='/memo/edit'">Create</button>
+        <button class="create-button" onclick="location.href='/api/memo/edit'">Create</button>
     </div>
 </div>
 

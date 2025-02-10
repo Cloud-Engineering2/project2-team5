@@ -49,6 +49,7 @@
             display: flex;
             justify-content: flex-end;
             margin-top: 20px;
+            gap: 15px;
         }
         .save-button {
             display: inline-block;
@@ -57,7 +58,7 @@
             border: none;
             border-radius: 13px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
             color: white;
         }
         .save-button:hover {
@@ -67,7 +68,7 @@
 </head>
 <body>
 <h1 class="page-title">메모 작성</h1>
-<form th:action="${memo != null and memo.id != null} ? @{/memo/{memo_id}(memo_id=${memo.id})} : @{/memo}"
+<form th:action="${memo != null and memo.id != null} ? @{/api/memo/{memo_id}(memo_id=${memo.id})} : @{/api/memo}"
       th:method="post"
       id="memo-form-container">
     <input type="hidden" name="_method" value="put" th:if="${memo != null and memo.id != null}" />
@@ -81,13 +82,39 @@
     </div>
 
     <div class="form-field">
-        <textarea placeholder="3줄 요약을 위한 ChatGPT를 호출하세요..." th:name="summary.summary">[[${summary?.summary}]]</textarea>
+        <textarea id="summary-field" placeholder="3줄 요약을 위한 ChatGPT를 호출하세요..." th:name="summary.summary">[[${summary?.summary}]]</textarea>
     </div>
 
     <div class="button-container">
+        <button class="save-button" type="button" id="fetch-summary-btn">ChatGPT 호출</button>
         <button class="save-button" type="submit">Submit</button>
     </div>
-
 </form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#fetch-summary-btn").click(function() {
+            let memoContent = $("textarea[th\\:name='content']").val(); // 메모 내용 가져오기
+
+            if (!memoContent) {
+                alert("메모 내용을 입력해주세요!");
+                return;
+            }
+            // 비동기 http 요청
+            $.ajax({
+                type: "POST",
+                url: "/api/summary",
+                contentType: "application/json",
+                data: JSON.stringify({ content: memoContent }),
+                success: function(response) {
+                    $("#summary-field").val(response.summary); // 받아온 요약을 필드에 입력
+                },
+                error: function(xhr, status, error) {
+                    alert("요약 요청 실패: " + error);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

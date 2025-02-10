@@ -29,6 +29,10 @@ public class MemoDto {
 
     private LocalDateTime createdDate;
 
+    public void setContentToFileName(String fileName) {
+        this.content = fileName;
+    }
+
     public static MemoDto fromEntity(Memo memo) {
 
         // Summary가 null일 경우도 처리
