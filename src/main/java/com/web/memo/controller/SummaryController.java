@@ -1,33 +1,30 @@
 package com.web.memo.controller;
 
-import com.web.memo.service.OpenAIService;
+import com.web.memo.dto.SummaryDTO;
+import com.web.memo.service.SummaryService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/summary")
+@RequestMapping("/summary")
 public class SummaryController {
 
+    private SummaryService summaryService;
+
     @Autowired
-    private OpenAIService openAIService;
+    public void setSummaryService(SummaryService summaryService) {
+        this.summaryService = summaryService;
+    }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> summarizeAndSave(@RequestParam String text) {
+    public ResponseEntity<SummaryDTO> summaryFromGetDTO(@RequestParam String summary) {
+
         try {
-            // OpenAI API를 사용하여 요약 생성
-            String summary = openAIService.summarizeText(text);
-
-            // 사용자가 요청한 본문과 요약을 JSON 형태로 반환
-            Map<String, String> response = new HashMap<>();
-            response.put("originalText", text);
-            response.put("summary", summary);
-
-            return ResponseEntity.ok(response);
+            SummaryDTO summaryFromDTO = summaryService.setSummary(summary);
+            return ResponseEntity.ok(summaryFromDTO);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(new SummaryDTO("error", e.getMessage()));
         }
     }
 }

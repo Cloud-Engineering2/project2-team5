@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "summaries")
+@Table(name = "summary")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,12 +13,9 @@ public class Summary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "sid")
+    private Long sid;
 
-    @Column(name = "summary_text", columnDefinition = "TEXT")
-    private String summaryText;
-
-    public Summary(String summaryText) {
-        this.summaryText = summaryText;
-    }
+    @Column(name = "summary", columnDefinition = "TEXT")
+    private String summary;
 }

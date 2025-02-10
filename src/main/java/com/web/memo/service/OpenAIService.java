@@ -5,6 +5,10 @@ import com.theokanning.openai.completion.CompletionResult;
 import com.theokanning.openai.service.OpenAiService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import com.theokanning.openai.completion.chat.ChatMessage;
+import com.theokanning.openai.completion.chat.ChatCompletionRequest;
+
+import java.util.List;
 
 @Service
 public class OpenAIService {
@@ -16,16 +20,16 @@ public class OpenAIService {
     }
 
     public String summarizeText(String text) {
-        String prompt = "Summarize the following text in 3 sentences:\n" + text;
+        String prompt = "Summarize text:\n" + text;
 
-        CompletionRequest request = CompletionRequest.builder()
-                .model("gpt-4o-mini")  //
-                .prompt(prompt)
+        ChatCompletionRequest request = ChatCompletionRequest.builder()
+                .model("gpt-4o-mini")
+                .messages(List.of(new ChatMessage("user", prompt)))
                 .maxTokens(150)
                 .temperature(0.7)
                 .build();
 
-        CompletionResult result = openAiService.createCompletion(request);
-        return result.getChoices().get(0).getText().trim();
+        var result = openAiService.createChatCompletion(request);
+        return result.getChoices().get(0).getMessage().getContent().trim();
     }
 }
