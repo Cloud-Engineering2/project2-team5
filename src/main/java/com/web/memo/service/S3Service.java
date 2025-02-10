@@ -36,7 +36,7 @@ public class S3Service {
     private static final String SUMMARY_DIR = "summary";
     private static final String DELIMITER = "_";
     private static final String DIR_DELIMITER = "/";
-    private static final String BASE_PATH = "/Users/cj/CE/97.data/";
+    private static final String BASE_PATH = "C://CE//97.data//";
 
 
     public String readObjectFromS3(String fileName) {
