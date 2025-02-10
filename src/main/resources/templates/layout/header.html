@@ -1,0 +1,21 @@
+<nav th:fragment="headerNav">
+  <div class="nav-container">
+    <!-- static 패키지의 로고 표시 -->
+    <div class="logo">
+      <a href="/memo">
+        <img th:src="@{/images/memo2.png}" alt="로고">
+      </a>
+    </div>
+
+    <div class="user-info">
+      <!-- 닉네임 표시 -->
+      <span class="nickname" th:text="${nickname}">사용자</span>
+      <!-- 로그아웃 버튼 -->
+      <div class="logout-button">
+        <a href="/logout" class="logout">로그아웃</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+

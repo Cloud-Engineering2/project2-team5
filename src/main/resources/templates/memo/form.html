@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>메모 작성</title>
+    <link rel="stylesheet" href="../style/style.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            padding: 0px 20px;
             background-color: white;
         }
         .page-title {
@@ -67,6 +68,7 @@
     </style>
 </head>
 <body>
+<th:block th:replace="~{layout/header :: headerNav}"></th:block>
 <h1 class="page-title">메모 작성</h1>
 <form th:action="${memo != null and memo.id != null} ? @{/memo/{memo_id}(memo_id=${memo.id})} : @{/memo}"
       th:method="post"
