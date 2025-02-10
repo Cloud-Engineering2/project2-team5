@@ -53,10 +53,10 @@
         }
         .save-button {
             display: inline-block;
-            padding: 16px 25px;
+            padding: 18px 25px;
             background-color: #0b50ff;
             border: none;
-            border-radius: 13px;
+            border-radius: 14px;
             cursor: pointer;
             font-size: 16px;
             color: white;
@@ -68,7 +68,7 @@
 </head>
 <body>
 <h1 class="page-title">메모 작성</h1>
-<form th:action="${memo != null and memo.id != null} ? @{/api/memo/{memo_id}(memo_id=${memo.id})} : @{/api/memo}"
+<form th:action="${memo != null and memo.id != null} ? @{/memo/{memo_id}(memo_id=${memo.id})} : @{/memo}"
       th:method="post"
       id="memo-form-container">
     <input type="hidden" name="_method" value="put" th:if="${memo != null and memo.id != null}" />

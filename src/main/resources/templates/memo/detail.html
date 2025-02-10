@@ -64,12 +64,12 @@
             background-color: #0b50ff;
             color: white;
             border: none;
-            padding: 18px 30px;
+            padding: 18px 25px;
             font-size: 16px;
             text-decoration: none;
             text-align: center;
             cursor: pointer;
-            border-radius: 13px;
+            border-radius: 14px;
         }
         .delete-button {
             background-color: #fa3131;
@@ -89,8 +89,8 @@
     <textarea readonly th:text="${summary?.summary}" placeholder="요약을 생성하지 않았습니다">Summary</textarea>
 </div>
 <div class="buttons">
-    <a th:href="@{/api/memo/edit/{memo_id}(memo_id=${memo.id})}" class="button">Edit</a>
-    <form th:action="@{/api/memo/{memo_id}(memo_id=${memo.id})}" method="post">
+    <a th:href="@{/memo/edit/{memo_id}(memo_id=${memo.id})}" class="button">Edit</a>
+    <form th:action="@{/memo/{memo_id}(memo_id=${memo.id})}" method="post">
         <input type="hidden" name="_method" value="DELETE">
         <button type="submit" class="button delete-button">Delete</button>
     </form>

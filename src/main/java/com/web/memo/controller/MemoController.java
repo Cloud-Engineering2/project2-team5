@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/memo")
+@RequestMapping("/memo")
 public class MemoController {
 
     private final MemoService memoService;
@@ -105,7 +105,7 @@ public class MemoController {
 //
 //        }
 
-        return "redirect:/api/memo";
+        return "redirect:/memo";
     }
 
     @PutMapping("/{memo_id}")
@@ -133,7 +133,7 @@ public class MemoController {
             }
         }
 
-        return "redirect:/api/memo/" + memo_id;
+        return "redirect:/memo/" + memo_id;
     }
 
     @DeleteMapping("/{memo_id}")
@@ -141,7 +141,7 @@ public class MemoController {
 
         memoService.deleteMemo(memo_id);
 
-        return "redirect:/api/memo";
+        return "redirect:/memo";
     }
 
 
