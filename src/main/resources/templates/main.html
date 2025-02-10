@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>메모 목록</title>
+    <link rel="stylesheet" href="../style/style.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            padding: 0px 20px;
             background-color: white;
         }
         .page-title {
@@ -58,6 +59,7 @@
     </style>
 </head>
 <body>
+<th:block th:replace="~{layout/header :: headerNav}"></th:block>
 <h1 class="page-title">메모 목록</h1>
 <div id="memo-container">
     <!-- memos 리스트가 비어 있는지 체크 -->
