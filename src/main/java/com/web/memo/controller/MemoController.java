@@ -2,7 +2,7 @@ package com.web.memo.controller;
 
 
 import com.web.memo.dto.MemoDto;
-import com.web.memo.dto.SummaryDto;
+import com.web.memo.dto.SummaryDTO;
 import com.web.memo.service.MemoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -56,10 +56,14 @@ public class MemoController {
 
         // 메모에 대한 summary가 존재한다면
         if (memoDto.getSummaryId() != null) {
+            // SummaryDto로 변환 + S3에서 내용 가져오기
+            // SummaryService에 id로 가져오는 메서드 생성
+//            SummaryDto summaryDto = SummaryDto.fromEntity(memo.getSummary());
+//            summaryDto.setSummary(s3Service.readObjectFromS3(memo.getSummary().getSummaryText())); // S3에서 읽어온 값으로 summary content 변경
 
-            // id로 summary 찾아와서 model에 추가
+            // model에 추가
         } else {
-            model.addAttribute("summary", new SummaryDto());
+            model.addAttribute("summary", new SummaryDTO());
         }
 
         return "memo/detail";
@@ -78,11 +82,11 @@ public class MemoController {
                 // SummaryDto summary = summaryService.getSummary();
                 // model.addAttribute("summary", summary);
             } else {
-                model.addAttribute("summary", new SummaryDto());
+                model.addAttribute("summary", new SummaryDTO());
             }
         } else {
             model.addAttribute("memo", new MemoDto());
-            model.addAttribute("summary", new SummaryDto());
+            model.addAttribute("summary", new SummaryDTO());
         }
 
         return "/memo/form";
@@ -90,20 +94,18 @@ public class MemoController {
 
     @PostMapping
     public String registerMemo(
-            @ModelAttribute MemoDto memoDto, @ModelAttribute SummaryDto summaryDto
+            @ModelAttribute MemoDto memoDto, @ModelAttribute SummaryDTO summaryDto
     ) throws IOException {
 
         // memo 저장 서비스 호출
         MemoDto memo = memoService.registerMemo(memoDto);
 
         // summary 내용이 존재한다면 저장 서비스 호출
-//        if (summaryDto.getSummary() != null) {
-//            // 내용을 S3에 저장
-//
-//            // summaryService를 호출하여 DB에 저장
-//            // memo를 같이 넘겨서 저장
-//
-//        }
+        if (summaryDto.getSummary() != null) {
+            // summaryService를 호출하여 S3에 저장 후 DB에 저장
+            // memo를 같이 넘겨서 저장
+
+        }
 
         return "redirect:/memo";
     }
@@ -111,7 +113,7 @@ public class MemoController {
     @PutMapping("/{memo_id}")
     public String updateMemo(
             @ModelAttribute MemoDto memoDto,
-            @ModelAttribute SummaryDto summaryDto,
+            @ModelAttribute SummaryDTO summaryDto,
             @PathVariable Long memo_id) throws IOException {
 
         // 메모 저장 서비스 호출
@@ -119,8 +121,6 @@ public class MemoController {
 
         // summary 내용이 존재한다면 요약 저장 서비스 호출
         if (summaryDto.getSummary() != null) {
-
-            // 내용을 S3에 저장
 
             // 이전에 기존 메모에 대한 summary가 존재했다면 update, 아니면 register
             // memo를 같이 넘겨서 저장
