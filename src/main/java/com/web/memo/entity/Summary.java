@@ -32,7 +32,7 @@ public class Summary {
     protected Summary() {}
     private Summary(Memo memo, String summary) {
         this.memo = memo;
-        this.summaryText = summary;
+        this.summary = summary;
     }
 
     public static Summary of(Memo memo, String summary) {
@@ -40,6 +40,6 @@ public class Summary {
     }
 
     public void updateContent(String summary) {
-        this.summaryText = summary;
+        this.summary = summary;
     }
 }

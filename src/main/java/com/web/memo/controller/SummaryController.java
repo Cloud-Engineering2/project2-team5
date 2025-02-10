@@ -1,6 +1,6 @@
 package com.web.memo.controller;
 
-import com.web.memo.dto.SummaryDTO;
+import com.web.memo.dto.SummaryDto;
 import com.web.memo.service.SummaryService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +18,13 @@ public class SummaryController {
     }
 
     @PostMapping
-    public ResponseEntity<SummaryDTO> summaryFromGetDTO(@RequestParam String summary) {
+    public ResponseEntity<SummaryDto> summaryFromGetDTO(@RequestParam String summary) {
 
         try {
-            SummaryDTO summaryFromDTO = summaryService.setSummary(summary);
+            SummaryDto summaryFromDTO = summaryService.setSummary(summary);
             return ResponseEntity.ok(summaryFromDTO);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new SummaryDTO("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(new SummaryDto("error", e.getMessage()));
         }
     }
 }

@@ -17,9 +17,17 @@ public class SummaryDto {
 
     private String summary;
 
+    private String title;
+
     private LocalDateTime createdDate;
 
     public void setSummary(String summary) {
+        this.title = title;
+        this.summary = summary;
+    }
+
+    public SummaryDto(String title, String summary) {
+        this.title = title;
         this.summary = summary;
     }
 

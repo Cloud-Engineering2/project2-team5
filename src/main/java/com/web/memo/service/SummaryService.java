@@ -1,6 +1,6 @@
 package com.web.memo.service;
 
-import com.web.memo.dto.SummaryDTO;
+import com.web.memo.dto.SummaryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ public class SummaryService {
         this.openAIService = openAIService;
     }
 
-    public SummaryDTO setSummary(String summary) {
+    public SummaryDto setSummary(String summary) {
 
         String summaryText = openAIService.summarizeText(summary);
 
-        return new SummaryDTO(summary, summaryText);
+        return new SummaryDto(summary, summaryText);
     }
 }
