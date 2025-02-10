@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메모 목록</title>
+    <link rel="stylesheet" href="../style/style.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0px 20px;
+            background-color: white;
+        }
+        .page-title {
+            text-align: center; /* 텍스트를 가운데 정렬 */
+        }
+        #memo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .memo {
+            background-color: #fff3f3;
+            border: 2px solid #fff3f3;
+            border-radius: 30px;
+            padding: 40px;
+            margin: 10px;
+            width: 600px;
+        }
+        .memo-title a {
+            text-decoration: none;
+            color: black;
+            display: inline-block;
+            padding: 5px;
+        }
+        .memo-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .button-container {
+            width: 600px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .create-button {
+            display: inline-block;
+            padding: 18px 25px;
+            background-color: #0b50ff;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+        }
+        .create-button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="~{layout/header :: headerNav}"></th:block>
+<h1 class="page-title">메모 목록</h1>
+<div id="memo-container">
+    <!-- memos 리스트가 비어 있는지 체크 -->
+    <div th:if="${#lists.isEmpty(memos)}" class="no-memos">
+        아직 작성한 메모가 없습니다
+    </div>
+
+    <!-- memos 리스트를 반복 처리 -->
+    <div th:each="memo : ${memos}" class="memo">
+        <!-- 제목이 30자 이상이면 자르고 '...' 추가 -->
+        <div class="memo-title">
+            <a th:href="@{/memo/{memo_id}(memo_id=${memo.id})}"
+               th:text="${(memo.title.length() > 30) ? memo.title.substring(0, 30) + '...' : memo.title}">
+                메모 제목
+            </a>
+        </div>
+        <!-- 내용이 30자 이상이면 자르고 '...' 추가 -->
+        <div class="memo-content"
+             th:text="${(memo.content.length() > 30) ? memo.content.substring(0, 30) + '...' : memo.content}">
+            메모 내용
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button class="create-button" onclick="location.href='/memo/edit'">Create</button>
+    </div>
+</div>
+
+
+
+</body>
+</html>
+

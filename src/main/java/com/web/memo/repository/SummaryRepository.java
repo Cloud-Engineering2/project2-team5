@@ -13,5 +13,5 @@ public interface SummaryRepository extends JpaRepository<Summary, Long> {
 
     List<Summary> findBySummaryContaining(String keyword);
 
-
+    Summary findByMemoId(Long memoId);
 }
