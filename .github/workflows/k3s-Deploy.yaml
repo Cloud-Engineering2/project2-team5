@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: memo-app
-          image: ????/memo-app:latest
+          image: ${{ secrets.DOCKER_HUB_NAME }}/memo-app:latest
           ports:
             - containerPort: 8080
 ---
