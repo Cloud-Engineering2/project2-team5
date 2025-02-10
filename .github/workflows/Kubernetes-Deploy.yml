@@ -15,10 +15,10 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: image build
-        run: docker build -t "${{ secrets.DOCKER_NAME }}"/memo-app:latest .
+        run: docker build -t "${{ secrets.DOCKER_HUB_NAME }}"/memo-app:latest .
 
       - name: push
-        run: docker push "${{ secrets.DOCKER_NAME }}"/memo-app:latest
+        run: docker push "${{ secrets.DOCKER_HUB_NAME }}"/memo-app:latest
 
       # local vm master node 에서 cat ~/.kube/config | base64 명령으로 인코딩한 결과값을 secrets.KUBECONFIG 값으로 인코딩후 액션에서 디코딩
       - name: Kubeconfig
