@@ -81,8 +81,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --local user.email ${{ secrets.GIT_EMAIL }}
-          git config --local user.name ${{ secrets.GIT_NAME }}
+          git config --local user.email "${{ secrets.GIT_EMAIL }}"
+          git config --local user.name "${{ secrets.GIT_NAME }}"
           
           git add ./manifest/app/memo-deployment.yaml
           git commit -m "Update manifest deployment yaml file for ArgoCD"
