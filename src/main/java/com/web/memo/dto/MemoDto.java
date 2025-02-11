@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,11 @@ public class MemoDto {
     private Long summaryId;
 
     private LocalDateTime createdDate;
+
+    public MemoDto (String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 
     public void setContentToFileName(String fileName) {
         this.content = fileName;
@@ -54,4 +60,5 @@ public class MemoDto {
                 user
         );
     }
+
 }

@@ -30,16 +30,16 @@ public class Summary {
     private LocalDateTime createdDate;
 
     protected Summary() {}
-    private Summary(Memo memo, String summary) {
+    private Summary(String summary, Memo memo) {
+        this.summary = summary;
         this.memo = memo;
-        this.summaryText = summary;
     }
 
-    public static Summary of(Memo memo, String summary) {
-        return new Summary(memo, summary);
+    public static Summary of(String summary, Memo memo) {
+        return new Summary(summary, memo);
     }
 
     public void updateContent(String summary) {
-        this.summaryText = summary;
+        this.summary = summary;
     }
 }
