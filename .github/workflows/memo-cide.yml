@@ -6,6 +6,8 @@ on:
       - develop
     paths-ignore:
       - 'manifest/**'
+  workflow_dispatch:
+    
 
 jobs:
   ci:
