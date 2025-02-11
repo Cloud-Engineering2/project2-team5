@@ -66,3 +66,16 @@ input {
 .register-btn:hover {
     background-color: #e8f0ff;
 }
+
+.logo img {
+    max-width: 100px;  /* 로고 크기 조정 */
+    height: auto;  /* 비율 유지 */
+    display: block;
+    margin: 0 auto 20px;  /* 가운데 정렬 및 아래쪽 여백 */
+}
+
+@media (max-width: 768px) { /* 모바일 화면 */
+    .logo img {
+        max-width: 80px; /* 모바일에서는 로고 크기 더 작게 */
+    }
+}

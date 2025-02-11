@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
     <h2>회원가입</h2>
+
+    <!-- 에러 메시지 표시 -->
+    <div th:if="${error}" style="color: red; margin-bottom: 10px;">
+        <p th:text="${error}"></p>
+    </div>
+
     <form action="/user/register" method="post">
         <label for="nickname">닉네임</label>
         <input type="text" id="nickname" name="nickname" placeholder="닉네임" required>
@@ -24,5 +30,18 @@
         <button type="submit" class="submit-btn">완료</button>
     </form>
 </div>
+
+<!-- 비밀번호 확인 JavaScript -->
+<script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+        let password = document.getElementById("password").value;
+        let confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            event.preventDefault(); // 폼 제출 중단
+        }
+    });
+</script>
 </body>
 </html>
