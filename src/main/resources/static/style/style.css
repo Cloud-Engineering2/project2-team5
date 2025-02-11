@@ -1,0 +1,45 @@
+.nav-container {
+    display: flex;
+    justify-content: space-between; /* 좌우 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd; /* 헤더와 본문 구분 */
+}
+
+.logo img {
+    height: 50px; /* 로고 크기 조정 */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 닉네임과 로그아웃 버튼 간격 */
+    background-color: #fff3f3; /* 기존 색상 유지 */
+    padding: 8px 15px; /* 내부 여백 추가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+}
+
+.nickname {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* 가독성을 위한 글씨 색상 */
+}
+
+.logout-button {
+    background-color: #0b50ff;
+    border-radius: 10px;
+    padding: 5px 12px; /* 버튼 크기 조정 */
+    transition: background-color 0.3s ease; /* 부드러운 hover 효과 */
+}
+
+.logout {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+
+.logout:hover {
+    opacity: 0.8;
+}

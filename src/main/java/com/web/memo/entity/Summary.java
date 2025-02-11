@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
+@Table(name = "summary")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Summary {
@@ -17,29 +18,28 @@ public class Summary {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "summary", columnDefinition = "TEXT")
+    private String summary;
+    
     @OneToOne
     @JoinColumn(name = "memo", nullable = false)
     private Memo memo;
-
-    @Column(name = "summary", columnDefinition = "TEXT")
-    private String summaryText;
 
     @Column(name = "created_at", nullable = false)
     @CreatedDate
     private LocalDateTime createdDate;
 
     protected Summary() {}
-    private Summary(Memo memo, String summary) {
+    private Summary(String summary, Memo memo) {
+        this.summary = summary;
         this.memo = memo;
-        this.summaryText = summary;
     }
 
-    public static Summary of(Memo memo, String summary) {
-        return new Summary(memo, summary);
+    public static Summary of(String summary, Memo memo) {
+        return new Summary(summary, memo);
     }
 
     public void updateContent(String summary) {
-        this.summaryText = summary;
+        this.summary = summary;
     }
 }
-

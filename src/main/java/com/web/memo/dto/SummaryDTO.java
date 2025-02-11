@@ -1,16 +1,19 @@
 package com.web.memo.dto;
 
+import com.web.memo.entity.Memo;
 import com.web.memo.entity.Summary;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SummaryDTO {
+public class SummaryDto {
 
     private Long id;
 
@@ -20,16 +23,34 @@ public class SummaryDTO {
 
     private LocalDateTime createdDate;
 
-    public static SummaryDTO fromEntity(Summary summary) {
-        return new SummaryDTO(
+    public SummaryDto(String summaryText) {
+        this.summary = summaryText;
+    }
+
+    public static SummaryDto fromEntity(Summary summary) {
+        return new SummaryDto(
                 summary.getId(),
                 summary.getMemo().getId(),
-                summary.getSummaryText(),
+                summary.getSummary(),
                 summary.getCreatedDate()
         );
     }
-    public void setSummaryToFileName(String fileName) {
+
+    public Summary toEntity(Memo memo) {
+        return Summary.of(
+                this.summary,
+                memo
+        );
+    }
+
+    public static SummaryDto of(String summaryText) {
+        return new SummaryDto(summaryText);
+    }
+    public void setSummary(String fileName) {
         this.summary = fileName;
     }
 
+
+
 }
+

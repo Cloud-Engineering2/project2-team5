@@ -72,7 +72,7 @@ public class MemoService {
         Memo newMemo = memoDto.toEntity(user);
         memoRepository.save(newMemo);
 
-        return memoDto;
+        return MemoDto.fromEntity(newMemo);
 
     }
 
@@ -92,9 +92,7 @@ public class MemoService {
             String fileName = s3Service.writeMemoToS3(memoDto.getContent(), MemoType.MEMO);
 
             // MemoDto를 Memo 엔티티로 변환하여 DB에 저장
-            memoDto.setContentToFileName(fileName);
-            memo.updateMemo(memoDto.getTitle(),
-                    memoDto.getContent());
+            memo.updateMemo(memoDto.getTitle(), fileName);
         }
 
         return MemoDto.fromEntity(memo);
@@ -112,7 +110,7 @@ public class MemoService {
 
         // 요약이 존재한다면 요약에 대한 s3 파일도 삭제
         if (memo.getSummary() != null) {
-            s3Service.deleteFileFromS3(memo.getSummary().getSummaryText());
+            s3Service.deleteFileFromS3(memo.getSummary().getSummary());
         }
 
         // 디비에서 메모 삭제
