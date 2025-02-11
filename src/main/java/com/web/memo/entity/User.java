@@ -2,34 +2,33 @@ package com.web.memo.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
-@EntityListeners(AuditingEntityListener.class)
+@Setter
+@Entity
+@Table(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT 적용
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", unique = true, nullable = false, length = 255)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "nickname", nullable = false, length = 255)
+    @Column(nullable = false)
     private String nickname;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    protected User() {}
+    @PrePersist // insert 전에 자동으로 실행
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
-
