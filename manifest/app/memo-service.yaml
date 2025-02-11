@@ -11,3 +11,4 @@ spec:
       nodePort: 31500 # 외부 접속 포트
       port: 8080 # 클러스터 내부에서 사용할 서비스 포트
       targetPort: 8080 # 서비스 전달 요청을 pod로 전달 포트
+  sessionAffinity: ClientIP
