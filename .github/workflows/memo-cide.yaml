@@ -79,20 +79,20 @@ jobs:
 
       - name: Update image in deployment manifest
         run: |
-          sed -i "s%image: .*%image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}%" ../../manifest/app/memo-deployment.yaml
+          sed -i "s%image: .*%image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}%" ./manifest/app/memo-deployment.yaml
 
       - name: Commit and push changes
         run: |
           git config --local user.email "${{ secrets.GIT_EMAIL }}"
           git config --local user.name "${{ secrets.GIT_NAME }}"
           
-          git add ../../manifest/app/memo-deployment.yaml
+          git add ./manifest/app/memo-deployment.yaml
           git commit -m "Update manifest deployment yaml file for ArgoCD"
           git push
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f ../../manifest/app/memo-deployment.yaml
-          kubectl apply -f ../../manifest/app/memo-service.yaml
+          kubectl apply -f ./manifest/app/memo-deployment.yaml
+          kubectl apply -f ./manifest/app/memo-service.yaml
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
