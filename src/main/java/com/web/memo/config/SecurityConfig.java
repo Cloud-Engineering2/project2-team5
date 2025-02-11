@@ -51,11 +51,13 @@ public class SecurityConfig {
                 )
 
                 .formLogin(form -> form
-                        .loginPage("/login")                     // 커스텀 로그인 페이지
-                        .loginProcessingUrl("/user/login")         // 로그인 처리 URL
-                        .successHandler(authenticationSuccessHandler()) // 로그인 성공 시 처리
+                        .loginPage("/login")                      // 커스텀 로그인 페이지
+                        .loginProcessingUrl("/user/login")        // 로그인 처리 URL
+                        .usernameParameter("email")               // 로그인 폼에서 "email" 파라미터를 사용자 이름으로 사용
+                        .successHandler(authenticationSuccessHandler()) // 로그인 성공 후 처리
                         .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
