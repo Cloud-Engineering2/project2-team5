@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: memo-app
-          image: joe1534/memo-app:963fa80181ea3ab31e1118565d362387c90cf495
+          image: joe1534/memo-app:c6167c4959863ba0669113f6272ce3ac819f3443
           ports:
             - name: http
               containerPort: 8080
