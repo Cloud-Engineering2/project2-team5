@@ -88,7 +88,7 @@ public class SecurityConfig {
             }
 
             // 로그인 성공 후 /home으로 리다이렉트
-            response.sendRedirect("/home");
+            response.sendRedirect("/memo");
         };
     }
 }

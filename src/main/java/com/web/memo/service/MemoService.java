@@ -52,14 +52,9 @@ public class MemoService {
     }
 
     @Transactional
-    public MemoDto registerMemo(MemoDto memoDto) throws IOException {
+    public MemoDto registerMemo(Long userId, MemoDto memoDto) throws IOException {
 
-        // 사용자 정보 확인
-        // User 작업 완료 시 SecurityContext에서 사용자 정보 가져오기
-
-        // 일단은 임시로 그냥 설정
-        memoDto.setUserId(1L);
-        Long userId = memoDto.getUserId();
+        memoDto.setUserId(userId);
 
         User user = userRepository.findById(userId).orElseThrow(()
                                                 -> new NoSuchElementException("No user present"));
@@ -77,11 +72,11 @@ public class MemoService {
     }
 
     @Transactional
-    public MemoDto updateMemo(MemoDto memoDto, Long memoId) throws IOException {
+    public MemoDto updateMemo(Long userId, MemoDto memoDto, Long memoId) throws IOException {
 
         // 사용자 정보 확인
         // 임시로
-        memoDto.setUserId(1L);
+        memoDto.setUserId(userId);
         User user = userRepository.getReferenceById(memoDto.getUserId());
         Memo memo = memoRepository.getReferenceById(memoId);
 
@@ -93,30 +88,34 @@ public class MemoService {
 
             // MemoDto를 Memo 엔티티로 변환하여 DB에 저장
             memo.updateMemo(memoDto.getTitle(), fileName);
+        } else {
+            throw new IllegalArgumentException("이 메모를 수정할 권한이 없습니다.");
         }
 
         return MemoDto.fromEntity(memo);
     }
 
-    public void deleteMemo(Long memoId) {
+    public void deleteMemo(Long userId, Long memoId) {
 
         // 사용자 정보 확인
-
-
-        // s3 서비스 호출해서 s3 파일 삭제
         Memo memo = memoRepository.findByIdWithSummary(memoId).orElseThrow();
-        String fileName = memo.getContent();
-        s3Service.deleteFileFromS3(fileName);
 
-        // 요약이 존재한다면 요약에 대한 s3 파일도 삭제
-        if (memo.getSummary() != null) {
-            s3Service.deleteFileFromS3(memo.getSummary().getSummary());
+        if (memo.getUser().getId().equals(userId)) {
+            // s3 서비스 호출해서 s3 파일 삭제
+            String fileName = memo.getContent();
+            s3Service.deleteFileFromS3(fileName);
+
+            // 요약이 존재한다면 요약에 대한 s3 파일도 삭제
+            if (memo.getSummary() != null) {
+                s3Service.deleteFileFromS3(memo.getSummary().getSummary());
+            }
+
+            // 디비에서 메모 삭제
+            // 메모에 대한 요약이 있다면 요약까지 자동 삭제됨
+            memoRepository.deleteById(memoId);
+        } else {
+            throw new IllegalArgumentException("이 메모를 수정할 권한이 없습니다.");
         }
-
-        // 디비에서 메모 삭제
-        // 메모에 대한 요약이 있다면 요약까지 자동 삭제됨
-        memoRepository.deleteById(memoId);
-
 
     }
 }

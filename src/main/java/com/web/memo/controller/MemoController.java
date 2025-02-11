@@ -3,9 +3,12 @@ package com.web.memo.controller;
 
 import com.web.memo.dto.MemoDto;
 import com.web.memo.dto.MemoRequestDto;
+import com.web.memo.entity.User;
 import com.web.memo.service.MemoService;
 import com.web.memo.service.SummaryService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +25,12 @@ public class MemoController {
     private final SummaryService summaryService;
 
     @GetMapping
-    public String getAllMemos(Model model) {
+    public String getAllMemos(HttpSession session, Model model) {
 
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        Long userId = ((CustomUserDetails) userDetails).getUserId(); // ID 가져오기
-
-        // userDetails 생기면 삭제
-        Long userId = 1L;
+        // user 정보 조회
+        User user = (User) session.getAttribute("loggedInUser");
+        model.addAttribute("nickname", user.getNickname());
+        Long userId = user.getId();
 
         // 해당 사용자의 메모 조회
         List<MemoDto> memos = memoService.getMemos(userId);
@@ -38,21 +40,13 @@ public class MemoController {
     }
 
     @GetMapping("/{memo_id}")
-    public String getMemo(@PathVariable Long memo_id, Model model) {
+    public String getMemo(HttpSession session, @PathVariable Long memo_id, Model model) {
 
-        // 현재 로그인한 사용자 가져오기
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        Long userId = ((CustomUserDetails) userDetails).getUserId(); // 로그인한 사용자 ID
-
+        User user = (User) session.getAttribute("loggedInUser");
+        model.addAttribute("nickname", user.getNickname());
 
         // 메모 조회
         MemoDto memoDto = memoService.getMemo(memo_id);
-
-        // 해당 메모가 로그인한 사용자의 것이 맞는지 확인
-//        if (!memoDto.getUserId().equals(userId)) {
-//            throw new AccessDeniedException("해당 메모를 조회할 권한이 없습니다.");
-//        }
 
         Long summaryId = memoDto.getSummaryId();
         MemoRequestDto memoRequestDto;
@@ -67,7 +61,10 @@ public class MemoController {
     }
 
     @GetMapping({"/edit", "/edit/{memo_id}"})
-    public String movetoRegisterMemoForm(@PathVariable(required = false) Long memo_id, Model model) {
+    public String movetoRegisterMemoForm(HttpSession session, @PathVariable(required = false) Long memo_id, Model model) {
+
+        User user = (User) session.getAttribute("loggedInUser");
+        model.addAttribute("nickname", user.getNickname());
 
         if (memo_id != null) {
             MemoDto memoDto = memoService.getMemo(memo_id);
@@ -88,10 +85,14 @@ public class MemoController {
     }
 
     @PostMapping
-    public String registerMemo(@ModelAttribute MemoRequestDto memoRequestDto) throws IOException {
+    public String registerMemo(HttpSession session, @ModelAttribute MemoRequestDto memoRequestDto) throws IOException {
+
+        // user 정보 조회
+        User user = (User) session.getAttribute("loggedInUser");
+        Long userId = user.getId();
 
         // memo 저장 서비스 호출
-        MemoDto memo = memoService.registerMemo(memoRequestDto.toDto());
+        MemoDto memo = memoService.registerMemo(userId, memoRequestDto.toDto());
 
         // summary 내용이 존재한다면 저장 서비스 호출
         if (!memoRequestDto.getSummary().isEmpty()) {
@@ -104,12 +105,14 @@ public class MemoController {
 
     @PutMapping("/{memo_id}")
     public String updateMemo(
+            HttpSession session,
             @ModelAttribute MemoRequestDto memoRequestDto,
             @PathVariable Long memo_id) throws IOException {
 
         // 메모 저장 서비스 호출
-
-        MemoDto memo = memoService.updateMemo(memoRequestDto.toDto(), memo_id);
+        User user = (User) session.getAttribute("loggedInUser");
+        Long userId = user.getId();
+        MemoDto memo = memoService.updateMemo(userId, memoRequestDto.toDto(), memo_id);
 
         // summary 내용이 존재한다면 요약 저장 서비스 호출
         if (!memoRequestDto.getSummary().isEmpty()) {
@@ -130,9 +133,12 @@ public class MemoController {
     }
 
     @DeleteMapping("/{memo_id}")
-    public String deleteMemo(@PathVariable Long memo_id) {
+    public String deleteMemo(HttpSession session, @PathVariable Long memo_id) {
 
-        memoService.deleteMemo(memo_id);
+        User user = (User) session.getAttribute("loggedInUser");
+        Long userId = user.getId();
+
+        memoService.deleteMemo(userId, memo_id);
 
         return "redirect:/memo";
     }
