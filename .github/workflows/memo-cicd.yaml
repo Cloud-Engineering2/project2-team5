@@ -90,9 +90,9 @@ jobs:
           git commit -m "Update manifest deployment yaml file for ArgoCD"
           git push
 
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     kubectl apply -f ./manifest/app/memo-deployment.yaml
-      #     kubectl apply -f ./manifest/app/memo-service.yaml
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f ./manifest/app/memo-deployment.yaml
+          kubectl apply -f ./manifest/app/memo-service.yaml
       #   env:
       #     KUBECONFIG: ${{ secrets.KUBECONFIG }}
