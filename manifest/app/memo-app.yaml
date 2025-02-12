@@ -35,10 +35,9 @@ metadata:
 spec:
   selector:
     app.kubernetes.io/name: memo-app
-  type: NodePort
+  type: ClusterIP
   ports:
     - protocol: TCP
-      nodePort: 31500 # 외부 접속 포트
       port: 8080 # 클러스터 내부에서 사용할 서비스 포트
       targetPort: 8080 # 서비스 전달 요청을 pod로 전달 포트
   sessionAffinity: ClientIP
@@ -56,6 +55,7 @@ metadata:
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:061039804626:certificate/91dc2dda-42b1-4b0f-8f9d-027f49f27d42
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/success-codes: 200-399
+    alb.ingress.kubernetes.io/load-balancer-name: t5-app-ingress-alb
     alb.ingress.kubernetes.io/ssl-redirect: "443"
 spec:
   rules:
