@@ -49,7 +49,7 @@ kind: Ingress
 metadata:
   name: memo-app-ingress
   annotations:
-	  kubernetes.io/ingress.class: alb
+    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     external-dns.alpha.kubernetes.io/hostname: memo.cj-cloud.site
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
