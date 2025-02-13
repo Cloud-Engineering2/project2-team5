@@ -23,11 +23,18 @@ public class SummaryService {
     private final MemoRepository memoRepository;
 
 
-    public String setSummary(String summary) {
+    public String setSummary(String content) {
 
-        String summaryText = openAIService.summarizeText(summary);
+        String summaryText = openAIService.summarizeText(content);
 
         return summaryText;
+    }
+
+    public String setTitle(String content) {
+
+        String titleText = openAIService.createTitle(content);
+
+        return titleText;
     }
 
     public SummaryDto getSummary(Long summaryId) {

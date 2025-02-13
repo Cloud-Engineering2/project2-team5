@@ -76,7 +76,7 @@
     <input type="hidden" name="_method" value="put" th:if="${memo != null and memo.id != null}" />
 
     <div class="form-field">
-        <input type="text" placeholder="메모 제목" th:name="title" th:value="${memo?.title}" required />
+        <input id="title-field" type="text" placeholder="메모 제목" th:name="title" th:value="${memo?.title}" required />
     </div>
 
     <div class="form-field">
@@ -88,7 +88,8 @@
     </div>
 
     <div class="button-container">
-        <button class="save-button" type="button" id="fetch-summary-btn">ChatGPT 호출</button>
+        <button class="save-button" type="button" id="fetch-title-btn">제목 생성</button>
+        <button class="save-button" type="button" id="fetch-summary-btn">요약 생성</button>
         <button class="save-button" type="submit">Submit</button>
     </div>
 </form>
@@ -123,6 +124,36 @@
                 },
                 error: function(xhr, status, error) {
                     alert("요약 요청 실패: " + error);
+                }
+            });
+        });
+    });
+    $(document).ready(function() {
+
+        let memoTextArea = $("#memo-content");
+
+        $("#fetch-title-btn").click(function() {
+
+            // 메모 내용 가져오기
+            let memoContent = memoTextArea.val().trim();
+
+            if (!memoContent) {
+                alert("메모 내용을 입력해주세요!");
+                return;
+            }
+            console.log("문자열 받음 : " + memoContent)
+
+            // 비동기 http 요청
+            $.ajax({
+                type: "POST",
+                url: "/summary/title",
+                contentType: "application/json",
+                data: JSON.stringify({ content: memoContent }),
+                success: function(response) {
+                    $("#title-field").val(response.title); // 받아온 요약을 필드에 입력
+                },
+                error: function(xhr, status, error) {
+                    alert("제목 요청 실패: " + error);
                 }
             });
         });

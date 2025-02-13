@@ -23,13 +23,29 @@ public class SummaryController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String,String>> summaryFromGetDTO(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Map<String,String>> createSummary(@RequestBody Map<String, String> requestBody) {
         Map<String, String> response = new HashMap<>();
 
         try {
-            String summary = requestBody.get("content");
-            String summaryText = summaryService.setSummary(summary);
+            String content = requestBody.get("content");
+            String summaryText = summaryService.setSummary(content);
             response.put("summary", summaryText);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("error", "요약 처리 중 오류가 발생했습니다.");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @PostMapping("/title")
+    public ResponseEntity<Map<String,String>> createTitle(@RequestBody Map<String, String> requestBody) {
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            String content = requestBody.get("content");
+            String titleText = summaryService.setTitle(content);
+            response.put("title", titleText);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("error", "요약 처리 중 오류가 발생했습니다.");
