@@ -43,10 +43,22 @@ public class MemoController {
     public String getMemo(HttpSession session, @PathVariable Long memo_id, Model model) {
 
         User user = (User) session.getAttribute("loggedInUser");
-        model.addAttribute("nickname", user.getNickname());
+        if (user == null) {
+            return "redirect:/login";
+        }
 
-        // 메모 조회
         MemoDto memoDto = memoService.getMemo(memo_id);
+        if (memoDto == null) {
+            model.addAttribute("errorMessage", "해당 메모를 찾을 수 없습니다.");
+            return "error/errorPage";  //
+        }
+
+        if (!memoDto.getUserId().equals(user.getId())) {
+            model.addAttribute("errorMessage", "다른 사용자의 메모를 조회할 수 없습니다.");
+            return "error/errorPage";  //
+        }
+
+        model.addAttribute("nickname", user.getNickname());
 
         Long summaryId = memoDto.getSummaryId();
         MemoRequestDto memoRequestDto;
@@ -55,6 +67,7 @@ public class MemoController {
         } else {
             memoRequestDto = MemoRequestDto.fromDtoWithNoSummary(memoDto);
         }
+
         model.addAttribute("memo", memoRequestDto);
 
         return "memo/detail";
