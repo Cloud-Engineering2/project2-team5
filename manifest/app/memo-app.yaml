@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: memo-app
-        image: 061039804626.dkr.ecr.ap-northeast-2.amazonaws.com/t5-ecr:49f14458b1bd27fba83dbc5cb85608ff5fb75706
+        image: 061039804626.dkr.ecr.ap-northeast-2.amazonaws.com/t5-ecr:3cd5fcf6648e582a774e6ba9b57a870f567f6882
         ports:
           - name: http
             containerPort: 8080
