@@ -21,6 +21,9 @@ spec:
           - name: http
             containerPort: 8080
             protocol: TCP
+          - name: prometheus
+            containerPort: 9090
+            protocol: TCP
         volumeMounts:
           - name: temp-storage
             mountPath: /mount  # 컨테이너 내부에서 /mount로 사용됨
