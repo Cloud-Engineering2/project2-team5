@@ -20,7 +20,7 @@ public class OpenAIService {
     }
 
     public String summarizeText(String text) {
-        String prompt = "Summarize text in 3 sentences:\n" + text;
+        String prompt = "Summarize the following text in exactly 3 sentences and under 150 characters:\n" + text;
 
         ChatCompletionRequest request = ChatCompletionRequest.builder()
                 .model("gpt-4o")
