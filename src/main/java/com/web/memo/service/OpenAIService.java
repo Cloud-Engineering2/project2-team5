@@ -23,7 +23,7 @@ public class OpenAIService {
         String prompt = "Summarize text in 3 sentences:\n" + text;
 
         ChatCompletionRequest request = ChatCompletionRequest.builder()
-                .model("gpt-4o-mini")
+                .model("gpt-4o")
                 .messages(List.of(new ChatMessage("user", prompt)))
                 .maxTokens(150)
                 .temperature(0.7)
