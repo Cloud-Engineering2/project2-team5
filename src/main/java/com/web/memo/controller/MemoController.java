@@ -81,7 +81,7 @@ public class MemoController {
         } else {
             model.addAttribute("memo", new MemoRequestDto());
         }
-        return "/memo/form";
+        return "memo/form";
     }
 
     @PostMapping

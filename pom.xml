@@ -115,14 +115,28 @@
 			<version>2.30.14</version>
 		</dependency>
       
-    <!-- Openai GPT3 -->
+    	<!-- Openai GPT3 -->
 		<dependency>
 			<groupId>com.theokanning.openai-gpt3-java</groupId>
 			<artifactId>service</artifactId>
 			<version>0.18.2</version>
 		</dependency>
+
+		<!-- Spring Actuator -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Prometheus -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.13.0</version>
+		</dependency>
 	</dependencies>
-    
+
+
 	<!--	<dependencyManagement>-->
 	<!--		<dependencies>-->
 	<!--			<dependency>-->

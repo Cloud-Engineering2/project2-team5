@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/register", "/user/register", "/login",
                                 "/favicon.ico", "/error",  // /error 추가
-                                "/css/**", "/js/**", "/images/**", "/static/**")
+                                "/css/**", "/js/**", "/images/**", "/static/**", "/actuator/**")
                         .permitAll()
                         .anyRequest().authenticated()
                 )

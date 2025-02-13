@@ -20,10 +20,10 @@ public class OpenAIService {
     }
 
     public String summarizeText(String text) {
-        String prompt = "Summarize text:\n" + text;
+        String prompt = "Summarize the following text in exactly 3 sentences and under 150 characters:\n" + text;
 
         ChatCompletionRequest request = ChatCompletionRequest.builder()
-                .model("gpt-4o-mini")
+                .model("gpt-4o")
                 .messages(List.of(new ChatMessage("user", prompt)))
                 .maxTokens(150)
                 .temperature(0.7)
@@ -34,7 +34,7 @@ public class OpenAIService {
     }
 
     public String createTitle(String text) {
-        String prompt = "해당 내용에 대한 재치있는 제목을 만들어줘:\n" + text;
+        String prompt = "Create a title for the given content:\n" + text;
 
         ChatCompletionRequest request = ChatCompletionRequest.builder()
                 .model("gpt-4o-mini")
