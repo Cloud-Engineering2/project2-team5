@@ -32,4 +32,18 @@ public class OpenAIService {
         var result = openAiService.createChatCompletion(request);
         return result.getChoices().get(0).getMessage().getContent().trim();
     }
+
+    public String createTitle(String text) {
+        String prompt = "Create a title for the given content:\n" + text;
+
+        ChatCompletionRequest request = ChatCompletionRequest.builder()
+                .model("gpt-4o-mini")
+                .messages(List.of(new ChatMessage("user", prompt)))
+                .maxTokens(150)
+                .temperature(0.7)
+                .build();
+
+        var result = openAiService.createChatCompletion(request);
+        return result.getChoices().get(0).getMessage().getContent().trim();
+    }
 }
