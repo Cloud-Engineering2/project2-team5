@@ -1,35 +1,18 @@
 package com.web.memo.dto;
 
-import com.web.memo.entity.Memo;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+@Setter
 @Getter
-@NoArgsConstructor
-public class SummaryDto {
-
-    private Long id;
-
-    private Long memoId;
-
+public class SummaryDTO {
+    private String title;
     private String summary;
 
-    private String title;
-
-    private LocalDateTime createdDate;
-
-    public void setSummary(String summary) {
+    public SummaryDTO(String title, String summary) {
         this.title = title;
         this.summary = summary;
+
+
     }
-
-    public SummaryDto(String title, String summary) {
-        this.title = title;
-        this.summary = summary;
-    }
-
-
 }
